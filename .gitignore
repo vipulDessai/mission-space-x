@@ -6,3 +6,6 @@ package-lock.json
 
 # ENV
 .env
+
+# build
+build/*.json
