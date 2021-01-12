@@ -8,6 +8,7 @@
     "dr": "webpack-dev-server --port 4200",
     "ds": "nodemon index.js",
     "build": "webpack --mode production",
+    "build::watch": "webpack --mode development -w",
     "build::server": "webpack -w --config webpack.server.js"
   },
   "keywords": [],
