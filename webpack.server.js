@@ -30,7 +30,7 @@ const config = {
             {
                 test: /\.(s*)css$/,
                 use: [
-                    // TODO: might need to remove style-loader
+                    // TODO: replace style-loader with isomorphic-stylestyle-loader in webpack.config.js
                     'isomorphic-style-loader', 
                     'css-loader',
                     'sass-loader'

@@ -12,6 +12,8 @@
                     "@": "./src"   
                 }  
             }
-        ] 
+        ],
+        // for async await in server.js
+        "@babel/plugin-transform-runtime"
     ]
 }
