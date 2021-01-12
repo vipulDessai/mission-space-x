@@ -10,7 +10,8 @@
     "build": "webpack --mode production",
     "build::watch": "webpack --mode development -w",
     "build::server": "webpack -w --config webpack.server.js",
-    "test": "jest"
+    "test": "jest",
+    "test::watch": "jest --watch"
   },
   "keywords": [],
   "author": "",

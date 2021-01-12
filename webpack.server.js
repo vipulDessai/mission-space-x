@@ -7,6 +7,9 @@ const config = {
     target: 'node',
     externals: [nodeExternals()],
     resolve: {
+        alias: {
+            '@': path.resolve(__dirname, './src'),
+        },
         extensions: ['.js', '.jsx', '.ts', '.tsx', '.json'],
     },
     output: {
@@ -23,6 +26,10 @@ const config = {
             {
                 test: /\.ts(x*)$/,
                 use: 'ts-loader',
+            },
+            {
+                test: /\.(s*)css$/,
+                use: ['style-loader', 'css-loader', 'sass-loader']
             },
         ]
     }

@@ -15,6 +15,7 @@ module.exports = {
     ],
     moduleNameMapper: {
         '@/(.*)$': '<rootDir>/src/$1',
+        '\\.(css|scss)$': '<rootDir>/jest-configs/no-parser-stub.js',
     },
     moduleFileExtensions: ['ts', 'tsx', 'js', 'jsx', 'json', 'node'],
 };
