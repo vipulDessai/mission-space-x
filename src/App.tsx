@@ -20,7 +20,7 @@ export function App(props:{launches?: Array<Launch>}) {
                     <h2>Filters</h2>
                 </li>
                 <li>
-                    <ul>
+                    <ul key={0}>
                         {
                             props.launches && props.launches.map(launchData => <Launches {...launchData} />)
                         }
