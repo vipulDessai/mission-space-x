@@ -29,7 +29,12 @@ const config = {
             },
             {
                 test: /\.(s*)css$/,
-                use: ['style-loader', 'css-loader', 'sass-loader']
+                use: [
+                    // TODO: might need to remove style-loader
+                    'isomorphic-style-loader', 
+                    'css-loader',
+                    'sass-loader'
+                ]
             },
         ]
     }
