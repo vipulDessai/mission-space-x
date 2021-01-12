@@ -1,16 +1,17 @@
 const path = require('path');
 const nodeExternals = require('webpack-node-externals');
 
-module.exports = {
+const config = {
     mode: 'development',
-    entry: './server/index.js',
+    entry: './server.js',
     target: 'node',
     externals: [nodeExternals()],
     resolve: {
         extensions: ['.js', '.jsx', '.ts', '.tsx', '.json'],
     },
     output: {
-        path: path.resolve('server-build'),
+        // reslove the absolute path
+        path: path.resolve('./'),
         filename: 'index.js'
     },
     module: {
@@ -26,3 +27,5 @@ module.exports = {
         ]
     }
 };
+
+module.exports = config;

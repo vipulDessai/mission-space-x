@@ -5,9 +5,10 @@
   "main": "index.js",
   "scripts": {
     "start": "node index.js",
-    "dev": "webpack-dev-server --port 4200",
-    "build": "webpack --mode production -w",
-    "server": "webpack -w --config webpack.server.js"
+    "dr": "webpack-dev-server --port 4200",
+    "ds": "nodemon index.js",
+    "build": "webpack --mode production",
+    "build::server": "webpack -w --config webpack.server.js"
   },
   "keywords": [],
   "author": "",
@@ -44,6 +45,7 @@
   },
   "devDependencies": {
     "redux-devtools-extension": "^2.13.8",
-    "webpack-dev-server": "^3.11.0"
+    "webpack-dev-server": "^3.11.0",
+    "nodemon": "^2.0.7"
   }
 }

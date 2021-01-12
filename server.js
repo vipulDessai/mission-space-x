@@ -5,14 +5,14 @@ import React from 'react';
 import express from 'express';
 import ReactDOMServer from 'react-dom/server';
 
-import { App } from '../src/App';
+import { App } from './src/App';
 
 const app = express();
 
 app.get('/', (req, res) => {
     const app = ReactDOMServer.renderToString(<App />);
 
-    const indexFile = path.resolve(path.join('../', 'build', 'index.html'));
+    const indexFile = path.resolve(path.join('build', 'index.html'));
     fs.readFile(indexFile, 'utf8', (err, data) => {
         if (err) {
             console.error('Something went wrong:', err);
@@ -25,7 +25,7 @@ app.get('/', (req, res) => {
     });
 });
 
-app.use(express.static(path.join('../', 'build')));
+app.use(express.static('build'));
 
 const port = process.env.PORT || 8080;
 app.listen(port, () => console.log(`Running on localhost:${port}`));
