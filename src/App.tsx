@@ -42,8 +42,8 @@ export function App() {
                     <ul>
                         <li key={key++}>
                             <ul>
-                                <li key={0}>Launch Year</li>
-                                <li key={1}>
+                                <li key={key++}>Launch Year</li>
+                                <li key={key++}>
                                     <ul>
                                         {
                                             _.range(2006, 2021).map((year, index) => <li key={index}><button onClick={() => setYear(year)}>{year}</button></li>)
@@ -54,22 +54,22 @@ export function App() {
                         </li>
                         <li key={key++}>
                             <ul>
-                                <li key={0}>Successful Launch</li>
-                                <li key={1}>
+                                <li key={key++}>Successful Launch</li>
+                                <li key={key++}>
                                     <ul>
-                                        <li key={0}><button onClick={() => setSuccessfulLaunch(true)}>True</button></li>
-                                        <li key={1}><button onClick={() => setSuccessfulLaunch(false)}>False</button></li>
+                                        <li key={key++}><button onClick={() => setSuccessfulLaunch(true)}>True</button></li>
+                                        <li key={key++}><button onClick={() => setSuccessfulLaunch(false)}>False</button></li>
                                     </ul>
                                 </li>
                             </ul>
                         </li>
                         <li key={key++}>
                             <ul>
-                                <li key={0}>Successful Landing</li>
-                                <li key={1}>
+                                <li key={key++}>Successful Landing</li>
+                                <li key={key++}>
                                     <ul>
-                                        <li key={0}><button onClick={() => setSuccessfulLanding(true)}>True</button></li>
-                                        <li key={1}><button onClick={() => setSuccessfulLanding(false)}>False</button></li>
+                                        <li key={key++}><button onClick={() => setSuccessfulLanding(true)}>True</button></li>
+                                        <li key={key++}><button onClick={() => setSuccessfulLanding(false)}>False</button></li>
                                     </ul>
                                 </li>
                             </ul>
