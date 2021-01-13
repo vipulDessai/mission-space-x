@@ -12,17 +12,8 @@ const app = express();
 
 app.get('/', async (req, res) => {
     const initialLaunchData = await axios.get("https://api.spacexdata.com/v3/launches?launch_year=2006");
-    console.log(initialLaunchData.data);
 
-    const launch = {
-        mission_id: "1",
-        rocket_name: "falcon 1",
-        launchYear: 2006,
-        successfulLaunch: false,
-        successfulLanding: "string",
-    }
-
-    const app = ReactDOMServer.renderToString(<App launches={[launch]} />);
+    const app = ReactDOMServer.renderToString(<App launches={initialLaunchData.data} />);
 
     const indexFile = path.resolve(path.join('build', 'index.html'));
     fs.readFile(indexFile, 'utf8', (err, data) => {
