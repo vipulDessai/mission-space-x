@@ -36,13 +36,13 @@ export function App() {
     return (
         <>
             <h1>SpaceX Launch Programs</h1>
-            <ul>
-                <li key={key}>
+            <ul className="content flex">
+                <li key={key} className="filters">
                     <h2>Filters</h2>
                     <ul>
                         <li key={key++}>
                             <ul>
-                                <li key={key++}>Launch Year</li>
+                                <li key={key++} className="text-center">Launch Year</li>
                                 <li key={key++}>
                                     <ul>
                                         {
@@ -54,7 +54,7 @@ export function App() {
                         </li>
                         <li key={key++}>
                             <ul>
-                                <li key={key++}>Successful Launch</li>
+                                <li key={key++} className="text-center">Successful Launch</li>
                                 <li key={key++}>
                                     <ul>
                                         <li key={key++}><button onClick={() => setSuccessfulLaunch(true)}>True</button></li>
@@ -65,7 +65,7 @@ export function App() {
                         </li>
                         <li key={key++}>
                             <ul>
-                                <li key={key++}>Successful Landing</li>
+                                <li key={key++} className="text-center">Successful Landing</li>
                                 <li key={key++}>
                                     <ul>
                                         <li key={key++}><button onClick={() => setSuccessfulLanding(true)}>True</button></li>
@@ -76,15 +76,13 @@ export function App() {
                         </li>
                     </ul>
                 </li>
-                <li key={key++}>
-                    <ul>
-                        {
-                            launches && launches.length > 0 && launches.map((launchData, index) => <li key={index}><Launch launchData={launchData} /></li>)
-                        }
-                    </ul>
+                <li key={key++} className="results flex">
+                    {
+                        launches && launches.length > 0 && launches.map((launchData, index) => <ul className="missions" key={index}><Launch launchData={launchData} /></ul>)
+                    }
                 </li>
             </ul>
-            <p>Developed by Vipul Dessai</p>
+            <p className="text-center"><b>Developed by:</b> Vipul Dessai</p>
         </>
     );
 }

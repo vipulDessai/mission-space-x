@@ -8,7 +8,7 @@ export function Launch({launchData}: {launchData: LaunchInterface}) {
     const rocketData: any = {
         "Mission Ids": launchData.mission_id.length > 0 ? launchData.mission_id.join() : 'Not Available',
         "Launch Year": launchData.launch_year,
-        "Successful Launch ": JSON.stringify(launchData.launch_success),
+        "Successful Launch": JSON.stringify(launchData.launch_success),
     }
 
     const cores = launchData.rocket.first_stage.cores;
@@ -16,19 +16,19 @@ export function Launch({launchData}: {launchData: LaunchInterface}) {
         rocketData["Successful Landing"] = JSON.stringify(launchData.rocket.first_stage.cores[0].land_success);
     
     return (
-        <ul>
+        <>
             <li key={0}>{rocketImg}</li>
             <li key={1}>{title}</li>
             {
                 Object.keys(rocketData).map((key, index) => (
                     <li key={index + 2}>
-                        <ul>
-                            <li key={0}>{key}: </li>
+                        <ul className="details">
+                            <li key={0}>{key}:&nbsp;</li>
                             <li key={1}>{rocketData[key]}</li>
                         </ul>
                     </li>
                 ))
             }
-        </ul>
+        </>
     )
 }
