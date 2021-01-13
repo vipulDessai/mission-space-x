@@ -6,14 +6,11 @@ import express from 'express';
 import ReactDOMServer from 'react-dom/server';
 
 import { App } from './src/App';
-import axios from 'axios';
 
 const app = express();
 
 app.get('/', async (req, res) => {
-    const initialLaunchData = await axios.get("https://api.spacexdata.com/v3/launches?launch_year=2006");
-
-    const app = ReactDOMServer.renderToString(<App launches={initialLaunchData.data} />);
+    const app = ReactDOMServer.renderToString(<App />);
 
     const indexFile = path.resolve(path.join('build', 'index.html'));
     fs.readFile(indexFile, 'utf8', (err, data) => {

@@ -7,7 +7,7 @@ import './App.scss'
 import { Launch } from '@/_components';
 import { Launch as LaunchInterface } from '@/_types';
 
-export function App(props: { launches?: Array<LaunchInterface> }) {
+export function App() {
     const [year, setYear] = useState(2006);
     const [successfulLaunch, setSuccessfulLaunch] = useState(null);
     const [successfulLanding, setSuccessfulLanding] = useState(null);
@@ -79,14 +79,12 @@ export function App(props: { launches?: Array<LaunchInterface> }) {
                 <li key={key++}>
                     <ul>
                         {
-                            props.launches && props.launches.map((launchData, index) => <li key={index}><Launch launchData={launchData} /></li>)
-                        }
-                        {
-                            launches && launches.length && launches.map((launchData, index) => <li key={index}><Launch launchData={launchData} /></li>)
+                            launches && launches.length > 0 && launches.map((launchData, index) => <li key={index}><Launch launchData={launchData} /></li>)
                         }
                     </ul>
                 </li>
             </ul>
+            <p>Developed by Vipul Dessai</p>
         </>
     );
 }
