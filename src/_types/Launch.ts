@@ -1,5 +1,7 @@
 export interface Launch {
     mission_id: Array<string>;
+    flight_number: number,
+    mission_name: string,
     links: { 
         mission_patch_small: string;
     },
