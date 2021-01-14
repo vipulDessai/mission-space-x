@@ -1,5 +1,5 @@
 // Small tablets and large smartphones (landscape view)
-$screen-sm-min: 576px;
+$screen-sm-min: 540px;
 // Large tablets and desktops
 $screen-xl-min: 1200px;
 
@@ -7,12 +7,12 @@ $primary-background: #dbdcdb;
 $secondery-background: #efefef;
 
 @mixin sm {
-    @media (min-width: #{$screen-sm-min}) {
+    @media only screen and (max-width: $screen-sm-min) {
         @content;
     }
 }
 @mixin xl {
-    @media (min-width: #{$screen-xl-min}) {
+    @media only screen and (max-width: $screen-xl-min) {
         @content;
     }
 }
@@ -26,7 +26,7 @@ body {
 }
 li, ul {
     list-style: none;
-    padding: 0;
+    padding: 0.125em;
 }
 a {
     text-decoration: none;
@@ -36,17 +36,21 @@ button {
     border: none;
     text-align: center;
     text-decoration: none;
+    font-size: x-large;
 }
 
 // Common classes
 .flex {
     display: flex;
-    @include sm {
-        flex-direction: column;
-    }
     @include xl {
         flex-direction: row;
     }
+    @include sm {
+        flex-direction: column;
+    }
+}
+.justify-content {
+    justify-content: space-between;
 }
 .text-center {
     text-align: center;
@@ -55,25 +59,50 @@ button {
 // Targets
 .content {
     .filters {
+        h2 {
+            margin: 0;
+        }
         background: $secondery-background;
         padding: 1em;
-        width: 200px;
         margin: 0.5em;
+        .year-group, .success-launch-button-group, .success-landing-button-group{
+            width: 150px;
+            flex-direction: row;
+            @include sm {
+                width: auto;
+            }
+        }
+        @include sm {
+            width: auto;
+        }
     }
     .results {
         margin: 0.5em;
-        .missions {
+        flex-wrap: wrap;
+        ul.missions {
             background: $secondery-background;
             padding: 1em;
             width: 15em;
             margin: 0.25em;
+            flex: 0 1;
             img {
                 width: 15em;
                 background: $primary-background;
+                margin-bottom: 0.5em;
+                @include sm {
+                    width: 100%;
+                }
             }
             .details {
                 display: flex;
             }
+            @include sm {
+                width: auto;
+            }
+        }
+        @include sm {
+            width: auto;
+            flex-wrap: unset;
         }
     }
 }

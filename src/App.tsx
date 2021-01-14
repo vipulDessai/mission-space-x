@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react';
-import _ from 'lodash';
 import axios from 'axios';
 
 import './App.scss'
@@ -46,7 +45,24 @@ export function App() {
                                 <li key={key++}>
                                     <ul>
                                         {
-                                            _.range(2006, 2021).map((year, index) => <li key={index}><button onClick={() => setYear(year)}>{year}</button></li>)
+                                            [[2006, 2007], [2008, 2009], [2010, 2011], [2012, 2013], [2014, 2015], [2016, 2017], [2018, 2019], [2020]]
+                                                .map(
+                                                    (yearGroup, index) => (
+                                                        <li key={index}>
+                                                            <ul className="year-group flex justify-content">
+                                                            {
+                                                                yearGroup.map(
+                                                                    (year, index) => (
+                                                                        <li key={index}>
+                                                                            <button onClick={() => setYear(year)}>{year}</button>
+                                                                        </li>
+                                                                    )
+                                                                )
+                                                            }
+                                                            </ul>
+                                                        </li>
+                                                    )
+                                                )
                                         }
                                     </ul>
                                 </li>
@@ -56,7 +72,7 @@ export function App() {
                             <ul>
                                 <li key={key++} className="text-center">Successful Launch</li>
                                 <li key={key++}>
-                                    <ul>
+                                    <ul className="success-launch-button-group flex justify-content">
                                         <li key={key++}><button onClick={() => setSuccessfulLaunch(true)}>True</button></li>
                                         <li key={key++}><button onClick={() => setSuccessfulLaunch(false)}>False</button></li>
                                     </ul>
@@ -67,7 +83,7 @@ export function App() {
                             <ul>
                                 <li key={key++} className="text-center">Successful Landing</li>
                                 <li key={key++}>
-                                    <ul>
+                                    <ul className="success-landing-button-group flex justify-content">
                                         <li key={key++}><button onClick={() => setSuccessfulLanding(true)}>True</button></li>
                                         <li key={key++}><button onClick={() => setSuccessfulLanding(false)}>False</button></li>
                                     </ul>

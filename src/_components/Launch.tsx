@@ -4,7 +4,7 @@ import { Launch as LaunchInterface } from '@/_types';
 
 export function Launch({launchData}: {launchData: LaunchInterface}) {
     const title = `${launchData.mission_name} # ${launchData.flight_number}`;
-    const rocketImg = <img src={launchData.links.mission_patch_small} alt={launchData.rocket.rocket_name} />;
+    const rocketImg = <img src={launchData.links.mission_patch_small} alt={`${launchData.rocket.rocket_name} # ${launchData.mission_name} # ${launchData.flight_number}`} />;
     const rocketData: any = {
         "Mission Ids": launchData.mission_id.length > 0 ? launchData.mission_id.join() : 'Not Available',
         "Launch Year": launchData.launch_year,
@@ -18,12 +18,12 @@ export function Launch({launchData}: {launchData: LaunchInterface}) {
     return (
         <>
             <li key={0}>{rocketImg}</li>
-            <li key={1}>{title}</li>
+            <li key={1}><b>{title}</b></li>
             {
                 Object.keys(rocketData).map((key, index) => (
                     <li key={index + 2}>
                         <ul className="details">
-                            <li key={0}>{key}:&nbsp;</li>
+                            <li key={0}><b>{key}:&nbsp;</b></li>
                             <li key={1}>{rocketData[key]}</li>
                         </ul>
                     </li>
