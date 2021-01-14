@@ -96,6 +96,9 @@ export function App() {
                     {
                         launches && launches.length > 0 && launches.map((launchData, index) => <ul className="missions" key={index}><Launch launchData={launchData} /></ul>)
                     }
+                    {
+                        (!launches || launches.length == 0) && <p>No data found for selected filters</p>
+                    }
                 </li>
             </ul>
             <p className="text-center"><b>Developed by:</b> Vipul Dessai</p>
