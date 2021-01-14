@@ -1,19 +1,71 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
+import queryString from 'query-string';
 
 import './App.scss'
 
 import { Launch } from '@/_components';
 import { Launch as LaunchInterface } from '@/_types';
 
-export function App() {
+
+export function App(props: any) {
     const [year, setYear] = useState(2006);
     const [successfulLaunch, setSuccessfulLaunch] = useState(null);
     const [successfulLanding, setSuccessfulLanding] = useState(null);
 
     const [launches, setLaunches]: [launches: Array<LaunchInterface>, setLaunches: React.SetStateAction<any>] = useState([]);
 
-    const getData = async () => {
+    const navigateForResult = (type: string, value: number | boolean) => {
+        const queryParams = readUrl();
+        let year = queryParams.year ? `year=${queryParams.year}&` : '';
+        let launch = queryParams.launch ? `launch=${queryParams.launch}&` : '';
+        let land = queryParams.land ? `land=${queryParams.land}&` : '';
+        switch (type) {
+            case "year":
+                year = `year=${JSON.stringify(value)}&`;
+                typeof value === "number" && setYear(value);
+                break;
+            case "success-launch":
+                launch = `launch=${JSON.stringify(value)}&`;
+                typeof value === "boolean" && setSuccessfulLaunch(value);
+                break;
+            case "success-land":
+                land = `land=${JSON.stringify(value)}&`;
+                typeof value === "boolean" && setSuccessfulLanding(value);
+                break;
+        
+            default:
+                break;
+        }
+
+        props.history.replace(`/?${year}${launch}${land}`);
+    }
+
+    const getDataOnPageRefresh = () => {
+        let { year, land, launch } = readUrl();
+        if(year) {
+            typeof year === "string" && setYear(parseInt(year));
+        }
+
+        if(land) {
+            typeof land === "string" && setSuccessfulLanding(JSON.parse(land));
+        }
+
+        if(launch) {
+            typeof launch === "string" && setSuccessfulLaunch(JSON.parse(launch));
+        }
+    }
+
+    const readUrl = () => {
+        let queryParams = props.location && props.location.search && queryString.parse(props.location.search);
+
+        if(!queryParams)
+            queryParams = {};
+        
+        return queryParams;
+    }
+
+    const getSpaceXMissionData = async () => {
         const successfulLaunchQueryParam = successfulLaunch != null ? (successfulLaunch == true || successfulLaunch == false) && `&launch_success=${JSON.stringify(successfulLaunch)}` : '';
         const successfulLandQueryParam = successfulLanding != null ? (successfulLanding == true || successfulLanding == false) && `&land_success=${JSON.stringify(successfulLanding)}` : '';
         const apiResponse = await axios.get(`https://api.spacexdata.com/v3/launches?launch_year=${year}${successfulLaunchQueryParam}${successfulLandQueryParam}`);
@@ -25,10 +77,15 @@ export function App() {
         }
     }
 
-    // componentDidMount
+    // on applying new filters
     useEffect(() => {
-        getData()
+        getSpaceXMissionData();
     }, [year, successfulLaunch, successfulLanding]);
+
+    // on page refresh
+    useEffect(() => {
+        getDataOnPageRefresh()
+    }, []);
 
     let key = 0;
 
@@ -54,7 +111,7 @@ export function App() {
                                                                 yearGroup.map(
                                                                     (iteratedYear, index) => (
                                                                         <li key={index}>
-                                                                            <button className={year === iteratedYear ? 'active' : ''} onClick={() => setYear(iteratedYear)}>{iteratedYear}</button>
+                                                                            <button className={year === iteratedYear ? 'active' : ''} onClick={() => navigateForResult("year", iteratedYear)}>{iteratedYear}</button>
                                                                         </li>
                                                                     )
                                                                 )
@@ -73,8 +130,8 @@ export function App() {
                                 <li key={key++} className="text-center">Successful Launch</li>
                                 <li key={key++}>
                                     <ul className="success-launch-button-group flex justify-content">
-                                        <li key={key++}><button className={successfulLaunch === true ? 'active' : ''} onClick={() => setSuccessfulLaunch(true)}>True</button></li>
-                                        <li key={key++}><button className={successfulLaunch === false ? 'active' : ''} onClick={() => setSuccessfulLaunch(false)}>False</button></li>
+                                        <li key={key++}><button className={successfulLaunch === true ? 'active' : ''} onClick={() => navigateForResult("success-launch", true)}>True</button></li>
+                                        <li key={key++}><button className={successfulLaunch === false ? 'active' : ''} onClick={() => navigateForResult("success-launch", false)}>False</button></li>
                                     </ul>
                                 </li>
                             </ul>
@@ -84,8 +141,8 @@ export function App() {
                                 <li key={key++} className="text-center">Successful Landing</li>
                                 <li key={key++}>
                                     <ul className="success-landing-button-group flex justify-content">
-                                        <li key={key++}><button className={successfulLanding === true ? 'active' : ''} onClick={() => setSuccessfulLanding(true)}>True</button></li>
-                                        <li key={key++}><button className={successfulLanding === false ? 'active' : ''} onClick={() => setSuccessfulLanding(false)}>False</button></li>
+                                        <li key={key++}><button className={successfulLanding === true ? 'active' : ''} onClick={() => navigateForResult("success-land", true)}>True</button></li>
+                                        <li key={key++}><button className={successfulLanding === false ? 'active' : ''} onClick={() => navigateForResult("success-land", false)}>False</button></li>
                                     </ul>
                                 </li>
                             </ul>
