@@ -27,3 +27,14 @@ npm run ds
 // bundle front end file
 npm run build::watch
 ```
+
+## Screen shots
+
+### Desktop
+<img src="./images/desktop-1200px.jpg" alt="desktop 1200px">
+
+### Tablet
+<img src="./images/tablet-800px.jpg" alt="tablet 800px">
+
+### Mobile
+<img src="./images/mobile-400px.jpg" alt="mobile 400px">
