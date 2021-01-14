@@ -52,9 +52,9 @@ export function App() {
                                                             <ul className="year-group flex justify-content">
                                                             {
                                                                 yearGroup.map(
-                                                                    (year, index) => (
+                                                                    (iteratedYear, index) => (
                                                                         <li key={index}>
-                                                                            <button onClick={() => setYear(year)}>{year}</button>
+                                                                            <button className={year === iteratedYear ? 'active' : ''} onClick={() => setYear(iteratedYear)}>{iteratedYear}</button>
                                                                         </li>
                                                                     )
                                                                 )
@@ -73,8 +73,8 @@ export function App() {
                                 <li key={key++} className="text-center">Successful Launch</li>
                                 <li key={key++}>
                                     <ul className="success-launch-button-group flex justify-content">
-                                        <li key={key++}><button onClick={() => setSuccessfulLaunch(true)}>True</button></li>
-                                        <li key={key++}><button onClick={() => setSuccessfulLaunch(false)}>False</button></li>
+                                        <li key={key++}><button className={successfulLaunch === true ? 'active' : ''} onClick={() => setSuccessfulLaunch(true)}>True</button></li>
+                                        <li key={key++}><button className={successfulLaunch === false ? 'active' : ''} onClick={() => setSuccessfulLaunch(false)}>False</button></li>
                                     </ul>
                                 </li>
                             </ul>
@@ -84,8 +84,8 @@ export function App() {
                                 <li key={key++} className="text-center">Successful Landing</li>
                                 <li key={key++}>
                                     <ul className="success-landing-button-group flex justify-content">
-                                        <li key={key++}><button onClick={() => setSuccessfulLanding(true)}>True</button></li>
-                                        <li key={key++}><button onClick={() => setSuccessfulLanding(false)}>False</button></li>
+                                        <li key={key++}><button className={successfulLanding === true ? 'active' : ''} onClick={() => setSuccessfulLanding(true)}>True</button></li>
+                                        <li key={key++}><button className={successfulLanding === false ? 'active' : ''} onClick={() => setSuccessfulLanding(false)}>False</button></li>
                                     </ul>
                                 </li>
                             </ul>

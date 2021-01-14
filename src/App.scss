@@ -37,6 +37,9 @@ button {
     text-align: center;
     text-decoration: none;
     font-size: x-large;
+    &.active {
+        background-color: #108d14; /* Dark Green */
+    }
 }
 
 // Common classes
