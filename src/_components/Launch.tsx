@@ -18,7 +18,7 @@ export function Launch({launchData}: {launchData: LaunchInterface}) {
     return (
         <>
             <li key={0}>{rocketImg}</li>
-            <li key={1}><b>{title}</b></li>
+            <li key={1}><ul><li><b>{title}</b></li></ul></li>
             {
                 Object.keys(rocketData).map((key, index) => (
                     <li key={index + 2}>
