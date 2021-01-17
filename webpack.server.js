@@ -36,6 +36,10 @@ const config = {
                     'sass-loader'
                 ]
             },
+            {
+                test: /\.(png|jpg|svg)$/,
+                loader: 'url-loader'
+            },
         ]
     }
 };

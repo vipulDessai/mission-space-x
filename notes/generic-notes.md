@@ -10,6 +10,7 @@
 
 ## filter functionality
 - button toggle
+- click button - show loader
 
 ## fetch data
 - api limit 100 everytime

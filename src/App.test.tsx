@@ -1,5 +1,6 @@
 import React from 'react';
-import { render, screen, within } from '@testing-library/react';
+import { render, screen, waitFor } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
 import { App } from '@/App';
 
 describe('Render', () => {
@@ -43,5 +44,35 @@ describe('Render', () => {
             for(const j in yearGroups[i])
                 expect(screen.getByText(yearGroups[i][j])).toBeInTheDocument();
         }
+    });
+});
+
+describe('Feature Functionalities', () => {
+    test('get all data',  async () => {
+        render(
+            <App />
+        );
+
+        // await waitFor(() => {
+
+        // })
+
+        expect(true).toBeTruthy();
+    });
+
+    test('get no data', async () => {
+        render(
+            <App />
+        );
+
+        expect(true).toBeTruthy();
+    });
+
+    test('get selected data', async () => {
+        render(
+            <App />
+        );
+
+        expect(true).toBeTruthy();
     });
 });

@@ -2,9 +2,11 @@ import React from 'react';
 
 import { Launch as LaunchInterface } from '@/_types';
 
+import defaultImage from '@/_images/default-image.png';
+
 export function Launch({launchData}: {launchData: LaunchInterface}) {
     const title = `${launchData.mission_name} # ${launchData.flight_number}`;
-    const rocketImg = <img src={launchData.links.mission_patch_small} alt={`${launchData.rocket.rocket_name} # ${launchData.mission_name} # ${launchData.flight_number}`} />;
+    const rocketImg = !launchData.links.mission_patch_small ? <img src={defaultImage} alt={launchData.rocket.rocket_name} /> : <img src={launchData.links.mission_patch_small} alt={launchData.rocket.rocket_name} />;
     const rocketData: any = {
         "Mission Ids": launchData.mission_id.length > 0 ? launchData.mission_id.join() : 'Not Available',
         "Launch Year": launchData.launch_year,

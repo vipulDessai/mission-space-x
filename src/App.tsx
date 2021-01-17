@@ -17,28 +17,47 @@ export function App(props: any) {
 
     const navigateForResult = (type: string, value: number | boolean) => {
         const queryParams = readUrl();
-        let year = queryParams.year ? `year=${queryParams.year}&` : '';
-        let launch = queryParams.launch ? `launch=${queryParams.launch}&` : '';
-        let land = queryParams.land ? `land=${queryParams.land}&` : '';
+        let queryParamsYear = queryParams.year ? `year=${queryParams.year}&` : '';
+        let queryParamsLaunch = queryParams.launch ? `launch=${queryParams.launch}&` : '';
+        let queryParamsLand = queryParams.land ? `land=${queryParams.land}&` : '';
         switch (type) {
             case "year":
-                year = `year=${JSON.stringify(value)}&`;
-                typeof value === "number" && setYear(value);
+                if(value === year) {
+                    queryParamsYear = '';
+                    setYear(null);
+                }
+                else {
+                    queryParamsYear = `year=${JSON.stringify(value)}&`;
+                    typeof value === "number" && setYear(value);
+                }
+                
                 break;
             case "success-launch":
-                launch = `launch=${JSON.stringify(value)}&`;
-                typeof value === "boolean" && setSuccessfulLaunch(value);
+                if(value === successfulLaunch) {
+                    queryParamsLaunch = '';
+                    setSuccessfulLaunch(null);
+                }
+                else {
+                    queryParamsLaunch = `launch=${JSON.stringify(value)}&`;
+                    typeof value === "boolean" && setSuccessfulLaunch(value);
+                }
                 break;
             case "success-land":
-                land = `land=${JSON.stringify(value)}&`;
-                typeof value === "boolean" && setSuccessfulLanding(value);
+                if(value === successfulLanding) {
+                    queryParamsLand = '';
+                    setSuccessfulLanding(null);
+                }
+                else {
+                    queryParamsLand = `land=${JSON.stringify(value)}&`;
+                    typeof value === "boolean" && setSuccessfulLanding(value);
+                }
                 break;
         
             default:
                 break;
         }
 
-        props.history.replace(`/?${year}${launch}${land}`);
+        props.history.replace(`/?${queryParamsYear}${queryParamsLaunch}${queryParamsLand}`);
     }
 
     const getDataOnPageRefresh = () => {
@@ -68,7 +87,8 @@ export function App(props: any) {
     const getSpaceXMissionData = async () => {
         const successfulLaunchQueryParam = successfulLaunch != null ? (successfulLaunch == true || successfulLaunch == false) && `&launch_success=${JSON.stringify(successfulLaunch)}` : '';
         const successfulLandQueryParam = successfulLanding != null ? (successfulLanding == true || successfulLanding == false) && `&land_success=${JSON.stringify(successfulLanding)}` : '';
-        return await axios.get(`https://api.spacexdata.com/v3/launches?launch_year=${year}${successfulLaunchQueryParam}${successfulLandQueryParam}`);
+        const yearQueryparam = year != null ? `&launch_year=${year}` : '';
+        return await axios.get(`https://api.spacexdata.com/v3/launches?limit=100${yearQueryparam}${successfulLaunchQueryParam}${successfulLandQueryParam}`);
     }
 
     // on applying new filters
