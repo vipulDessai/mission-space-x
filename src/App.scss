@@ -1,20 +1,41 @@
 // Small tablets and large smartphones (landscape view)
-$screen-sm-min: 540px;
+$screen-sm-max: 700px;
+// tablets
+$screen-md-max: 1024px;
 // Large tablets and desktops
-$screen-xl-min: 1200px;
+$screen-xl-max: 1440px;
 
 $primary-background: #dbdcdb;
 $secondery-background: #efefef;
 
 @mixin sm {
-    @media only screen and (max-width: $screen-sm-min) {
+    @media only screen and (max-width: $screen-sm-max) {
+        @content;
+    }
+}
+@mixin md {
+    @media only screen and (max-width: $screen-md-max) {
         @content;
     }
 }
 @mixin xl {
-    @media only screen and (max-width: $screen-xl-min) {
+    @media only screen and (max-width: $screen-xl-max) {
         @content;
     }
+}
+@mixin xxl {
+    @media only screen and (min-width: $screen-xl-max) {
+        @content;
+    }
+}
+
+@mixin keyframe($animation-name) {
+    @keyframes #{$animation-name} {
+        @content;
+    }
+}
+@mixin animation($str) {
+    animation: #{$str};
 }
 
 // Global selectors
@@ -37,7 +58,7 @@ button {
     text-align: center;
     text-decoration: none;
     font-size: x-large;
-    border-radius: 0.125em;
+    border-radius: 4px;
     &.active {
         background-color: #52aa55; /* Dark Green */
     }
@@ -62,65 +83,6 @@ button {
 .text-center {
     text-align: center;
 }
-
-// Targets
-.content {
-    .filters {
-        h2 {
-            margin: 0;
-        }
-        background: $secondery-background;
-        padding: 1em;
-        margin: 0.5em;
-        .year-group, .success-launch-button-group, .success-landing-button-group{
-            width: 150px;
-            flex-direction: row;
-            @include sm {
-                width: auto;
-            }
-        }
-        @include sm {
-            width: auto;
-        }
-    }
-    .results {
-        margin: 0.5em;
-        flex-wrap: wrap;
-        ul.missions {
-            background: $secondery-background;
-            padding: 1em;
-            width: 15em;
-            margin: 0.25em;
-            flex: 0 1;
-            img {
-                width: 15em;
-                background: $primary-background;
-                margin-bottom: 0.5em;
-                @include sm {
-                    width: 100%;
-                }
-            }
-            .details {
-                display: flex;
-            }
-            @include sm {
-                width: auto;
-            }
-        }
-        @include sm {
-            width: auto;
-            flex-wrap: unset;
-        }
-    }
-}
-@mixin keyframe($animation-name) {
-    @keyframes #{$animation-name} {
-        @content;
-    }
-}
-@mixin animation($str) {
-    animation: #{$str};
-}
 .loader {
     position: fixed;
     height: 100%;
@@ -135,6 +97,70 @@ button {
     img {
         width: 5em;
         @include animation('spin 1s linear infinite');
+    }
+}
+
+// Targets
+.app-component {
+    .content {
+        .filters {
+            h2 {
+                margin: 0;
+            }
+            background: $secondery-background;
+            padding: 1em;
+            margin: 0 0.5em 0.5em 0;
+            .underline {
+                border-bottom: 1px solid black;
+                margin: 0 1em;
+            }
+            .year-group, .success-launch-button-group, .success-landing-button-group{
+                width: 150px;
+                flex-direction: row;
+                @include sm {
+                    width: auto;
+                }
+            }
+            @include sm {
+                width: auto;
+            }
+        }
+        .results {
+            padding: 0;
+            flex-wrap: wrap;
+            ul.missions {
+                background: $secondery-background;
+                padding: 1em;
+                width: 15em;
+                margin: 0 0.5em 0.5em 0;
+                img {
+                    width: 15em;
+                    background: $primary-background;
+                    margin-bottom: 0.5em;
+                    width: 100%;
+                }
+                .details {
+                    display: flex;
+                }
+                @include xl {
+                    flex: 1 1 19%;
+                }
+                @include md {
+                    flex: 2 1 30%;
+                }
+                @include sm {
+                    width: auto;
+                }
+            }
+            @include sm {
+                width: auto;
+                flex-wrap: unset;
+            }
+        }
+    }
+    @include xxl {
+        width: 1370px;
+        margin: 0 auto;
     }
 }
 @include keyframe('spin') {

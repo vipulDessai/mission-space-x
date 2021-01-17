@@ -8,7 +8,6 @@ import loaderImage from '@/_images/loader.png';
 import { Launch } from '@/_components';
 import { Launch as LaunchInterface } from '@/_types';
 
-
 export function App(props: any) {
     const [year, setYear] = useState(null);
     const [successfulLaunch, setSuccessfulLaunch] = useState(null);
@@ -132,7 +131,7 @@ export function App(props: any) {
     let key = 0;
 
     return (
-        <>
+        <div className="app-component">
             <h1>SpaceX Launch Programs</h1>
             <ul className="content flex">
                 <li key={key} className="filters">
@@ -140,7 +139,7 @@ export function App(props: any) {
                     <ul>
                         <li key={key++}>
                             <ul>
-                                <li key={key++} className="text-center" data-testid="launch-year">Launch Year</li>
+                                <li key={key++} className="text-center underline" data-testid="launch-year">Launch Year</li>
                                 <li key={key++}>
                                     <ul>
                                         {
@@ -169,7 +168,7 @@ export function App(props: any) {
                         </li>
                         <li key={key++}>
                             <ul>
-                                <li key={key++} className="text-center" data-testid="success-launch">Successful Launch</li>
+                                <li key={key++} className="text-center underline" data-testid="success-launch">Successful Launch</li>
                                 <li key={key++}>
                                     <ul className="success-launch-button-group flex justify-content">
                                         <li key={key++}><button data-testid="success-launch-true" className={successfulLaunch === true ? 'active' : ''} onClick={() => navigateForResult("success-launch", true)}>True</button></li>
@@ -180,7 +179,7 @@ export function App(props: any) {
                         </li>
                         <li key={key++}>
                             <ul>
-                                <li key={key++} className="text-center" data-testid="success-land">Successful Landing</li>
+                                <li key={key++} className="text-center underline" data-testid="success-land">Successful Landing</li>
                                 <li key={key++}>
                                     <ul className="success-landing-button-group flex justify-content">
                                         <li key={key++}><button data-testid="success-land-true" className={successfulLanding === true ? 'active' : ''} onClick={() => navigateForResult("success-land", true)}>True</button></li>
@@ -207,6 +206,6 @@ export function App(props: any) {
                     </div>
             }
             <p className="text-center"><b>Developed by:</b> Vipul Dessai</p>
-        </>
+        </div>
     );
 }
