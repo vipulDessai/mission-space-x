@@ -2,7 +2,8 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import queryString from 'query-string';
 
-import './App.scss'
+import './App.scss';
+import loaderImage from '@/_images/loader.png';
 
 import { Launch } from '@/_components';
 import { Launch as LaunchInterface } from '@/_types';
@@ -12,6 +13,7 @@ export function App(props: any) {
     const [year, setYear] = useState(null);
     const [successfulLaunch, setSuccessfulLaunch] = useState(null);
     const [successfulLanding, setSuccessfulLanding] = useState(null);
+    const [loader, setLoader] = useState(true);
 
     const [launches, setLaunches]: [launches: Array<LaunchInterface>, setLaunches: React.SetStateAction<any>] = useState([]);
 
@@ -93,11 +95,13 @@ export function App(props: any) {
 
     // on applying new filters
     useEffect(() => {
+        setLoader(true);
         let mounted = true;
         getSpaceXMissionData()
             .then(
                 res => {
                     if(mounted){
+                        setLoader(false);
                         if(res.status == 200) {
                             setLaunches(res.data);
                         }
@@ -108,7 +112,12 @@ export function App(props: any) {
                 }
             )
             .catch(
-                console.log
+                err => {
+                    if(mounted) { 
+                        setLoader(false);
+                        console.log(err);
+                    }
+                }
             )
 
         // on unmount set mounted false
@@ -163,8 +172,8 @@ export function App(props: any) {
                                 <li key={key++} className="text-center" data-testid="success-launch">Successful Launch</li>
                                 <li key={key++}>
                                     <ul className="success-launch-button-group flex justify-content">
-                                        <li key={key++}><button className={successfulLaunch === true ? 'active' : ''} onClick={() => navigateForResult("success-launch", true)}>True</button></li>
-                                        <li key={key++}><button className={successfulLaunch === false ? 'active' : ''} onClick={() => navigateForResult("success-launch", false)}>False</button></li>
+                                        <li key={key++}><button data-testid="success-launch-true" className={successfulLaunch === true ? 'active' : ''} onClick={() => navigateForResult("success-launch", true)}>True</button></li>
+                                        <li key={key++}><button data-testid="success-launch-false" className={successfulLaunch === false ? 'active' : ''} onClick={() => navigateForResult("success-launch", false)}>False</button></li>
                                     </ul>
                                 </li>
                             </ul>
@@ -174,8 +183,8 @@ export function App(props: any) {
                                 <li key={key++} className="text-center" data-testid="success-land">Successful Landing</li>
                                 <li key={key++}>
                                     <ul className="success-landing-button-group flex justify-content">
-                                        <li key={key++}><button className={successfulLanding === true ? 'active' : ''} onClick={() => navigateForResult("success-land", true)}>True</button></li>
-                                        <li key={key++}><button className={successfulLanding === false ? 'active' : ''} onClick={() => navigateForResult("success-land", false)}>False</button></li>
+                                        <li key={key++}><button data-testid="success-land-true" className={successfulLanding === true ? 'active' : ''} onClick={() => navigateForResult("success-land", true)}>True</button></li>
+                                        <li key={key++}><button data-testid="success-land-false" className={successfulLanding === false ? 'active' : ''} onClick={() => navigateForResult("success-land", false)}>False</button></li>
                                     </ul>
                                 </li>
                             </ul>
@@ -191,6 +200,12 @@ export function App(props: any) {
                     }
                 </li>
             </ul>
+            {   
+                loader && 
+                    <div className="loader">
+                        <img src={loaderImage} alt="loader" />
+                    </div>
+            }
             <p className="text-center"><b>Developed by:</b> Vipul Dessai</p>
         </>
     );

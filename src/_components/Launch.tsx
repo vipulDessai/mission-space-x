@@ -22,8 +22,8 @@ export function Launch({launchData}: {launchData: LaunchInterface}) {
             <li key={1}><ul><li><b>{title}</b></li></ul></li>
             <li key={2}>
                 <ul>
-                    <li><b>Mission Ids: </b></li>
-                    {launchData.mission_id.length > 0 ? launchData.mission_id.map(id => <li className="p-l-sm">&bull;&nbsp;{id}</li>) : <li>Not Available</li>}
+                    <li key={0}><b>Mission Ids: </b></li>
+                    {launchData.mission_id.length > 0 ? launchData.mission_id.map((id, index) => <li key={index + 1} className="p-l-sm">&bull;&nbsp;{id}</li>) : <li key={1}>Not Available</li>}
                 </ul>
             </li>
             {

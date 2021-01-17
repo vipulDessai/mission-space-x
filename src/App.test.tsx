@@ -1,6 +1,9 @@
 import React from 'react';
-import { render, screen, waitFor } from '@testing-library/react';
+import { render, screen, waitFor, waitForElementToBeRemoved } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
+import { Router } from 'react-router-dom';
+import { createMemoryHistory } from 'history'
+
 import { App } from '@/App';
 
 describe('Render', () => {
@@ -48,31 +51,68 @@ describe('Render', () => {
 });
 
 describe('Feature Functionalities', () => {
-    test('get all data',  async () => {
+    test('Mission Tile - has all attributes', () => {
+        expect(true).toBeTruthy();
+    });
+    test('Mission Tile - has blank image placeholder', () => {
+        expect(true).toBeTruthy();
+    });
+    test('Button Toggle', () => {
+        expect(true).toBeTruthy();
+    });
+});
+
+describe('Network Requests', () => {
+    test('get all data i.e. 100 items',  async () => {
         render(
             <App />
         );
-
-        // await waitFor(() => {
-
-        // })
-
-        expect(true).toBeTruthy();
+        
+        const missionTile = await screen.findAllByText(/mission ids/i);
+        
+        expect(missionTile.length).toBe(100);
+        expect(missionTile[0]).toBeInTheDocument();
     });
 
     test('get no data', async () => {
+        const history = createMemoryHistory()
         render(
-            <App />
+            <App history={history} />
         );
 
-        expect(true).toBeTruthy();
+        userEvent.click(
+            screen.getByRole('button', {
+                name: /2006/i
+            })
+        );
+        userEvent.click(screen.getByTestId('success-launch-true'));
+        userEvent.click(screen.getByTestId('success-land-true'));
+
+        const noDataElement = await screen.findByText(/no data found for selected filters/i);
+        expect(noDataElement).toBeInTheDocument();
     });
 
-    test('get selected data', async () => {
+    test('get selected data i.e 2 items', async () => {
+        const history = createMemoryHistory()
         render(
-            <App />
+            <App history={history} />
         );
 
+        userEvent.click(
+            screen.getByRole('button', {
+                name: /2014/i
+            })
+        );
+        userEvent.click(screen.getByTestId('success-launch-true'));
+        userEvent.click(screen.getByTestId('success-land-true'));
+
+        const missionTile = await screen.findAllByText(/mission ids/i);
+        expect(missionTile.length).toBe(2);
+    });
+});
+
+describe('Page refresh retaining data', () => {
+    test('retains the data on page reload', () => {
         expect(true).toBeTruthy();
     });
 });
