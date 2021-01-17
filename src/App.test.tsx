@@ -5,6 +5,8 @@ import { Router } from 'react-router-dom';
 import { createMemoryHistory } from 'history'
 
 import { App } from '@/App';
+import { Launch } from '@/_components';
+import { Launch as LaunchInterface } from './_types';
 
 describe('Render', () => {
     test('landing page has Main Heading',  () => {
@@ -52,13 +54,73 @@ describe('Render', () => {
 
 describe('Feature Functionalities', () => {
     test('Mission Tile - has all attributes', () => {
-        expect(true).toBeTruthy();
+        const launchData: LaunchInterface = {
+            mission_id: ['EE86F74', 'CE91D46'],
+            flight_number: 1,
+            mission_name: 'Falcon 1',
+            links: { 
+                mission_patch_small: 'https://images2.imgbox.com/9a/96/nLppz9HW_o.png',
+            },
+            rocket: {
+                rocket_name: 'rocket 1',
+                first_stage: {
+                    cores: [
+                        {
+                            land_success: true,
+                        }
+                    ],
+                }
+            },
+            launch_year: "2006",
+            launch_success: true,
+        }
+        render(<Launch launchData={launchData} />);
+
+        expect(screen.getByText(`${launchData.mission_name} # ${launchData.flight_number}`)).toHaveTextContent(`${launchData.mission_name} # ${launchData.flight_number}`);
+        expect(screen.getByText(launchData.mission_id[0], { exact: false })).toHaveTextContent(launchData.mission_id[0]);
+        expect(screen.getByText(launchData.mission_id[1], { exact: false })).toHaveTextContent(launchData.mission_id[1]);
+        expect(screen.getByText(launchData.launch_year)).toHaveTextContent(launchData.launch_year);
     });
-    test('Mission Tile - has blank image placeholder', () => {
-        expect(true).toBeTruthy();
-    });
-    test('Button Toggle', () => {
-        expect(true).toBeTruthy();
+    test('Button Toggle', async () => {
+        const history = createMemoryHistory()
+        render(
+            <App history={history} />
+        );
+
+        userEvent.click(
+            screen.getByRole('button', {
+                name: /2014/i
+            })
+        );
+        userEvent.click(screen.getByTestId('success-launch-true'));
+        userEvent.click(screen.getByTestId('success-land-true'));
+
+        expect(
+            screen.getByRole('button', {
+                name: /2014/i
+            })
+        ).toHaveClass('active');
+        expect(screen.getByTestId('success-launch-true')).toHaveClass('active');
+        expect(screen.getByTestId('success-land-true')).toHaveClass('active');
+
+        const missionTile = await screen.findAllByText(/mission ids/i);
+        expect(missionTile.length).toBe(2);
+
+        userEvent.click(
+            screen.getByRole('button', {
+                name: /2014/i
+            })
+        );
+        userEvent.click(screen.getByTestId('success-launch-true'));
+        userEvent.click(screen.getByTestId('success-land-true'));
+
+        expect(
+            screen.getByRole('button', {
+                name: /2014/i
+            })
+        ).not.toHaveClass('active');
+        expect(screen.getByTestId('success-launch-true')).not.toHaveClass('active');
+        expect(screen.getByTestId('success-land-true')).not.toHaveClass('active');
     });
 });
 
@@ -108,11 +170,5 @@ describe('Network Requests', () => {
 
         const missionTile = await screen.findAllByText(/mission ids/i);
         expect(missionTile.length).toBe(2);
-    });
-});
-
-describe('Page refresh retaining data', () => {
-    test('retains the data on page reload', () => {
-        expect(true).toBeTruthy();
     });
 });
