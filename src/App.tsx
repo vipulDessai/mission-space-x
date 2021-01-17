@@ -9,7 +9,7 @@ import { Launch as LaunchInterface } from '@/_types';
 
 
 export function App(props: any) {
-    const [year, setYear] = useState(2006);
+    const [year, setYear] = useState(null);
     const [successfulLaunch, setSuccessfulLaunch] = useState(null);
     const [successfulLanding, setSuccessfulLanding] = useState(null);
 
@@ -68,18 +68,31 @@ export function App(props: any) {
     const getSpaceXMissionData = async () => {
         const successfulLaunchQueryParam = successfulLaunch != null ? (successfulLaunch == true || successfulLaunch == false) && `&launch_success=${JSON.stringify(successfulLaunch)}` : '';
         const successfulLandQueryParam = successfulLanding != null ? (successfulLanding == true || successfulLanding == false) && `&land_success=${JSON.stringify(successfulLanding)}` : '';
-        const apiResponse = await axios.get(`https://api.spacexdata.com/v3/launches?launch_year=${year}${successfulLaunchQueryParam}${successfulLandQueryParam}`);
-        if(apiResponse.status == 200) {
-            setLaunches(apiResponse.data);
-        }
-        else {
-            setLaunches([])
-        }
+        return await axios.get(`https://api.spacexdata.com/v3/launches?launch_year=${year}${successfulLaunchQueryParam}${successfulLandQueryParam}`);
     }
 
     // on applying new filters
     useEffect(() => {
-        getSpaceXMissionData();
+        let mounted = true;
+        getSpaceXMissionData()
+            .then(
+                res => {
+                    if(mounted){
+                        if(res.status == 200) {
+                            setLaunches(res.data);
+                        }
+                        else {
+                            setLaunches([])
+                        }
+                    }
+                }
+            )
+            .catch(
+                console.log
+            )
+
+        // on unmount set mounted false
+        return () => mounted = false;
     }, [year, successfulLaunch, successfulLanding]);
 
     // on page refresh
@@ -98,7 +111,7 @@ export function App(props: any) {
                     <ul>
                         <li key={key++}>
                             <ul>
-                                <li key={key++} className="text-center">Launch Year</li>
+                                <li key={key++} className="text-center" data-testid="launch-year">Launch Year</li>
                                 <li key={key++}>
                                     <ul>
                                         {
@@ -127,7 +140,7 @@ export function App(props: any) {
                         </li>
                         <li key={key++}>
                             <ul>
-                                <li key={key++} className="text-center">Successful Launch</li>
+                                <li key={key++} className="text-center" data-testid="success-launch">Successful Launch</li>
                                 <li key={key++}>
                                     <ul className="success-launch-button-group flex justify-content">
                                         <li key={key++}><button className={successfulLaunch === true ? 'active' : ''} onClick={() => navigateForResult("success-launch", true)}>True</button></li>
@@ -138,7 +151,7 @@ export function App(props: any) {
                         </li>
                         <li key={key++}>
                             <ul>
-                                <li key={key++} className="text-center">Successful Landing</li>
+                                <li key={key++} className="text-center" data-testid="success-land">Successful Landing</li>
                                 <li key={key++}>
                                     <ul className="success-landing-button-group flex justify-content">
                                         <li key={key++}><button className={successfulLanding === true ? 'active' : ''} onClick={() => navigateForResult("success-land", true)}>True</button></li>

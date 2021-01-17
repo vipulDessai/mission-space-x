@@ -11,7 +11,7 @@
     "dr": "webpack-dev-server --port 4200",
     "build::server": "webpack -w --config webpack.server.js",
     "ds": "nodemon index.js",
-    "test::watch": "jest --watch"
+    "test::watch": "jest --watch --detectOpenHandles"
   },
   "keywords": [],
   "author": "",
