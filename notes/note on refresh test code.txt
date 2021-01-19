@@ -1,0 +1,45 @@
+describe('Page refresh retaining data', () => {
+    const { reload } = window.location;
+    beforeAll(() => {
+        const location: Location = window.location;
+        delete window.location;
+        window.location = {
+            ...location,
+            reload: jest.fn()
+        };
+    });
+
+    afterAll(() => {
+        window.location.reload = reload;
+    });
+
+    const reloadFn = () => {
+        window.location.reload();
+    }
+
+    test('retains the data on page reload', async () => {
+        const history = createMemoryHistory()
+        render(
+            <App history={history} />
+        );
+
+        history.replace('/?year=2014&launch=true&land=true&');
+        console.log(window.location.href)
+
+        reloadFn();
+        expect(window.location.reload).toHaveBeenCalledTimes(1);
+
+        await screen.findAllByText(/mission ids/i);
+
+        // expect(
+        //     screen.getByRole('button', {
+        //         name: /2014/i
+        //     })
+        // ).toHaveClass('active');
+
+        console.log(window.location.href)
+        
+        expect(screen.getByTestId('success-launch-true')).toHaveClass('active');
+        expect(screen.getByTestId('success-land-true')).toHaveClass('active');
+    });
+});
