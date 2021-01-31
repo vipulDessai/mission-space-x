@@ -7,11 +7,11 @@
     "start": "node index.js",
     "build": "webpack --mode production",
     "test": "jest",
-    "build::watch": "webpack --mode development -w",
+    "build-watch": "webpack --mode development -w",
     "dr": "webpack-dev-server --port 4200",
-    "build::server": "webpack -w --config webpack.server.js",
+    "build-server": "webpack -w --config webpack.server.js",
     "ds": "nodemon index.js",
-    "test::watch": "jest --watch --detectOpenHandles"
+    "test-w": "jest --watch --detectOpenHandles"
   },
   "keywords": [],
   "author": "",

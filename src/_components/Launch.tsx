@@ -4,10 +4,16 @@ import { Launch as LaunchInterface } from '@/_types';
 
 import defaultImage from '@/_images/default-image.png';
 
+type RocketDataKeys = "Launch Year" | "Successful Launch" | "Successful Landing";
+
+type RocketData = {
+    [key in RocketDataKeys]?: string;
+}
+
 export function Launch({launchData}: {launchData: LaunchInterface}) {
     const title = `${launchData.mission_name} # ${launchData.flight_number}`;
     const rocketImg = !launchData.links.mission_patch_small ? <img src={defaultImage} alt={launchData.rocket.rocket_name} /> : <img src={launchData.links.mission_patch_small} alt={launchData.rocket.rocket_name} />;
-    const rocketData: any = {
+    const rocketData: RocketData = {
         "Launch Year": launchData.launch_year,
         "Successful Launch": JSON.stringify(launchData.launch_success),
     }
@@ -27,7 +33,7 @@ export function Launch({launchData}: {launchData: LaunchInterface}) {
                 </ul>
             </li>
             {
-                Object.keys(rocketData).map((key, index) => (
+                Object.keys(rocketData).map((key: RocketDataKeys, index) => (
                     <li key={index + 3}>
                         <ul className="details">
                             <li key={0}><b>{key}:&nbsp;</b></li>
