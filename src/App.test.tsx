@@ -1,5 +1,5 @@
 import React from 'react';
-import { render, screen } from '@testing-library/react';
+import { render, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { createMemoryHistory } from 'history'
 
@@ -128,8 +128,10 @@ describe('Network Requests', () => {
         render(
             <App />
         );
+
+        await waitFor(async () => await screen.findAllByText(/mission ids/i))
         
-        const missionTile = await screen.findAllByText(/mission ids/i);
+        const missionTile = screen.getAllByText(/mission ids/i);
         
         expect(missionTile.length).toBe(100);
         expect(missionTile[0]).toBeInTheDocument();
@@ -149,7 +151,9 @@ describe('Network Requests', () => {
         userEvent.click(screen.getByTestId('success-launch-true'));
         userEvent.click(screen.getByTestId('success-land-true'));
 
-        const noDataElement = await screen.findByText(/no data found for selected filters/i);
+        await waitFor(async () => await screen.findByText(/no data found for selected filters/i));
+
+        const noDataElement = screen.getByText(/no data found for selected filters/i);
         expect(noDataElement).toBeInTheDocument();
     });
 
@@ -167,7 +171,9 @@ describe('Network Requests', () => {
         userEvent.click(screen.getByTestId('success-launch-true'));
         userEvent.click(screen.getByTestId('success-land-true'));
 
-        const missionTile = await screen.findAllByText(/mission ids/i);
+        await waitFor(async () => await screen.findAllByText(/mission ids/i))
+
+        const missionTile = screen.getAllByText(/mission ids/i);
         expect(missionTile.length).toBe(2);
     });
 });
