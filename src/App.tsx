@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import axios from 'axios';
 import queryString from 'query-string';
 
@@ -12,7 +12,7 @@ export function App(props: any) {
     const [year, setYear] = useState(null);
     const [successfulLaunch, setSuccessfulLaunch] = useState(null);
     const [successfulLanding, setSuccessfulLanding] = useState(null);
-    const [loader, setLoader] = useState(true);
+    const [loader, setLoader] = useState(false);
 
     const [launches, setLaunches]: [launches: Array<LaunchInterface>, setLaunches: React.SetStateAction<any>] = useState([]);
 
@@ -92,32 +92,19 @@ export function App(props: any) {
         return await axios.get(`https://api.spacexdata.com/v3/launches?limit=100${yearQueryparam}${successfulLaunchQueryParam}${successfulLandQueryParam}`);
     }
 
+    const isInitialMount = useRef(true);
+
     // on applying new filters
     useEffect(() => {
-        setLoader(true);
         let mounted = true;
-        getSpaceXMissionData()
-            .then(
-                res => {
-                    if(mounted){
-                        setLoader(false);
-                        if(res.status == 200) {
-                            setLaunches(res.data);
-                        }
-                        else {
-                            setLaunches([])
-                        }
-                    }
-                }
-            )
-            .catch(
-                err => {
-                    if(mounted) { 
-                        setLoader(false);
-                        console.log(err);
-                    }
-                }
-            )
+
+        if (isInitialMount.current) {
+            triggerGetSpaceXMissionData(mounted);
+            isInitialMount.current = false;
+        }
+        else {
+            triggerGetSpaceXMissionData(mounted);
+        }
 
         // on unmount set mounted false
         return () => mounted = false;
@@ -127,6 +114,29 @@ export function App(props: any) {
     useEffect(() => {
         getDataOnPageRefresh()
     }, []);
+
+    const triggerGetSpaceXMissionData = (mounted: boolean) => {
+        if(mounted)
+            setLoader(true);
+        
+        getSpaceXMissionData()
+            .then(
+                res => {
+                    if(mounted) {
+                        setLoader(false);
+                        setLaunches(res.data);
+                    }
+                }
+            )
+            .catch(
+                err => {
+                    if(mounted) {
+                        console.log(err);
+                        setLaunches([]);
+                    }
+                }
+            );
+    }
 
     let key = 0;
 
